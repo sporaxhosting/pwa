@@ -18,20 +18,60 @@ body {
     overflow-x: hidden;
 }
 
+/* --- Splash Screen (FIXED) --- */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+.splash-logo {
+    width: 120px; /* Fixed width instead of percentage */
+    height: auto;
+    max-width: 50%;
+    margin-bottom: 30px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #004877;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
 /* --- Sticky Header & Navigation --- */
 .header, .checking-header {
     position: sticky;
     top: 0;
     background: #004877;
     color: white;
-    padding: 50px 16px 15px; /* iOS Notch Support */
+    padding-top: calc(env(safe-area-inset-top) + 16px); /* FIXED: Proper iOS notch support */
+    padding-bottom: 15px;
     z-index: 100;
     text-align: center;
-    [cite_start]box-shadow: 0 1px 0 rgba(0,0,0,0.05)[cite: 19, 20, 44, 45].
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+
+.header-center {
+    padding: 0 16px;
 }
 
 .header-logo {
-    height: 24px;
+    height: 27px; /* Increased by 14% (from 24px) */
     margin-bottom: 5px;
 }
 
@@ -43,6 +83,29 @@ body {
     opacity: 0.9;
 }
 
+/* --- Checking Header Specific --- */
+.checking-header {
+    padding: calc(env(safe-area-inset-top) + 16px) 16px 20px; /* FIXED */
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    left: 16px;
+    top: calc(env(safe-area-inset-top) + 16px); /* FIXED: Proper positioning */
+    font-size: 26px;
+    padding: 8px;
+    background: none;
+    border: none;
+    color: white;
+    z-index: 101;
+}
+
+.checking-header h1 {
+    margin: 24px 0 0 0; /* Added space between back button and title */
+    font-size: 20px;
+}
+
 /* --- Bottom Navigation (iOS PWA Fixed) --- */
 .bottom-nav {
     position: fixed;
@@ -52,9 +115,9 @@ body {
     display: flex;
     justify-content: space-around;
     padding-top: 10px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom)); /* Fixes white bar on iPhone */
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
     border-top: 1px solid #eee;
-    [cite_start]z-index: 1000[cite: 18].
+    z-index: 1000;
 }
 
 .bottom-nav a {
@@ -72,9 +135,9 @@ body {
 }
 
 .nav-icon {
-    width: 18px; /* Slightly smaller as requested */
+    width: 18px;
     height: 18px;
-    [cite_start]margin-bottom: 4px[cite: 26].
+    margin-bottom: 4px;
 }
 
 /* --- Account Cards (Capital One Style) --- */
@@ -82,6 +145,11 @@ body {
     text-decoration: none;
     display: block;
     margin: 12px 16px;
+}
+
+/* FIXED: Added padding between header and first account card */
+#realAccounts .account-card-link:first-child {
+    margin-top: 20px; /* Added more space */
 }
 
 .account-card {
@@ -93,7 +161,7 @@ body {
 }
 
 .account-card:active {
-    transform: scale(0.98); /* Native tap feedback */
+    transform: scale(0.98);
 }
 
 .account-header-new {
@@ -135,12 +203,12 @@ body {
     width: 100%;
     padding: 14px 24px;
     background: white;
-    border: 2px solid #000; /* Solid outline as requested */
+    border: 2px solid #000;
     border-radius: 16px;
     color: #000;
     font-size: 14px;
     font-weight: 600;
-    [cite_start]cursor: pointer[cite: 11, 12].
+    cursor: pointer;
 }
 
 /* --- Recent Activity List --- */
@@ -156,7 +224,7 @@ body {
 }
 
 .transaction-list {
-    margin: 10px 16px;
+    margin: 10px 16px 24px 16px; /* FIXED: Added bottom margin for "View more" button */
     background: white;
     border-radius: 16px;
     overflow: hidden;
@@ -191,18 +259,19 @@ body {
 .view-more-button.centered {
     display: block;
     text-align: center;
-    margin: 12px auto 0;
+    margin: 20px auto 24px auto; /* FIXED: Added more space */
     color: #004877;
     text-decoration: none;
     font-weight: 600;
-    [cite_start]font-size: 14px[cite: 14, 15].
+    font-size: 14px;
+    padding: 12px 0;
 }
 
 /* --- Native Page Transitions --- */
 .app {
     min-height: 100vh;
     animation: pageEnter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    overscroll-behavior-y: contain; /* Prevents PWA bounce background */
+    overscroll-behavior-y: contain;
 }
 
 @keyframes pageEnter {
@@ -235,18 +304,18 @@ body {
 .skeleton-title { height: 18px; width: 60%; margin-bottom: 10px; }
 .skeleton-balance { height: 28px; width: 40%; margin-left: auto; }
 
-/* --- Pull to Refresh --- */
+/* --- Pull to Refresh (LESS SENSITIVE) --- */
 #pullIndicator {
     position: absolute;
-    top: -60px;
+    top: -80px; /* Increased from -60px to make less sensitive */
     left: 0;
     right: 0;
-    height: 60px;
+    height: 80px; /* Increased height */
     display: flex;
     justify-content: center;
     align-items: center;
     transition: transform 0.2s ease;
-    [cite_start]z-index: 20[cite: 51].
+    z-index: 20;
 }
 
 .pull-spinner {
@@ -257,12 +326,12 @@ body {
     border-radius: 50%;
     animation: spin 1s linear infinite;
     opacity: 0;
-    [cite_start]transition: opacity 0.2s ease[cite: 52].
+    transition: opacity 0.2s ease;
 }
 
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
 /* --- Utilities --- */
 .padding-bottom {
-    [cite_start]padding-bottom: calc(80px + env(safe-area-inset-bottom))[cite: 18, 19].
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
 }
