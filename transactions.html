@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BankFlow">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <title>BankFlow - Transactions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <h1>Transactions</h1>
+            <p class="subtitle">All activity</p>
+        </div>
+        
+        <div class="transaction-list">
+            <!-- Repeat transaction-item divs 10-15 times -->
+            <!-- Use different icons: 🛒 ☕ 🚕 🏠 🎬 🛍️ 🏦 etc. -->
+        </div>
+                <!-- Bottom Navigation -->
+        <div class="padding-bottom"></div>
+        <nav class="bottom-nav">
+            <a href="index.html" class="active">
+                <span class="icon-home"></span>
+                <span>Home</span>
+            </a>
+            <a href="transactions.html">
+                <span class="icon-activity"></span>
+                <span>Activity</span>
+            </a>
+            <a href="payments.html">
+                <span class="icon-pay"></span>
+                <span>Pay</span>
+            </a>
+            <a href="settings.html">
+                <span class="icon-settings"></span>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="last-updated">Updated just now</div>
+    </div>
+    </div>
+</body>
+</html>
