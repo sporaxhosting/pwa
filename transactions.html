@@ -3,214 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Transactions | BankFlow</title>
-    
-    <!-- PWA Meta Tags -->
+    <title>Activity | BankFlow</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="BankFlow">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#004877">
-    
-    <!-- App Icons - iOS REQUIRES 180x180 PNG -->
-    <link rel="icon" type="image/png" href="https://i.ibb.co/Zk1b3xC/capital1-152.png">
-    <link rel="apple-touch-icon" href="https://i.ibb.co/R4Q6WHBP/capital1-180.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/R4Q6WHBP/capital1-180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="https://i.ibb.co/5XPqtswP/capital1-167.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="https://i.ibb.co/Zk1b3xC/capital1-152.png">
-    
-    <!-- iOS Splash Screens -->
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIGZpbGw9IiMwMDQ4NzciLz48Y2lyY2xlIGN4PSI1MTIiIGN5PSI0MDAiIHI9IjEwMCIgZmlsbD0id2hpdGUiLz48dGV4dCB4PSI1MTIiIHk9IjY1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQ4IiBmaWxsPSJ3aGl0ZSI+QmFua0Zsb3c8L3RleHQ+PC9zdmc+">
-    
-    <!-- IMPORTANT: Base tag for GitHub Pages routing -->
     <base href="/pwa/">
-    
-    <!-- Web App Manifest (for Android/iOS) -->
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkJhbmtGbG93IiwKICAic2hvcnRfbmFtZSI6ICJCYW5rRmxvdyIsCiAgImRlc2NyaXB0aW9uIjogIlNpbXBsZSBiYW5raW5nIFBXQSIsCiAgInN0YXJ0X3VybCI6ICIuL2luZGV4Lmh0bWwiLAogICJzY29wZSI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDQ4NzciLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vaS5pbWdiYi5jby9aazFiM1hDL2NhcGl0YWwxLTE1Mi5wbmciLAogICAgICAic2l6ZXMiOiAiMTUyeDE1MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pLmltZ2JiLmNvLzVYUHFlc3dwUC9jYXBpdGFsMS0xNjcucG5nIiwKICAgICAgInNpemVzIjogIjE2N3gxNjciLAogICAgICAidHlwZSI6ICJpbWF1YWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pLmltZ2JiLmNvL1I0UTZXSEJQL2NhcGl0YWwxLTE4MC5wbmciLAogICAgICAic2l6ZXMiOiAiMTgweDE4MCIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0">
-    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Add this at the start of the body -->
-<div id="splashScreen" class="splash-screen">
-    <div class="splash-content">
-        <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow Logo" class="splash-logo">
-        <div class="spinner"></div>
-    </div>
-</div>
+    <div id="pullIndicator"><div class="pull-spinner"></div></div>
 
-<!-- Wrap your existing content in this div -->
-<div class="app" id="mainApp" style="display: none;">
-    <!-- Your existing transactions content here -->
-
-    <div class="app">
-        <!-- Header -->
+    <div class="app" id="mainApp">
         <div class="header">
-            <h1>Transactions</h1>
-            <p class="subtitle">All activity</p>
+            <div class="header-center">
+                <h1 style="font-size: 18px; margin: 0;">Recent Activity</h1>
+            </div>
         </div>
-        
-        <!-- Transaction List -->
-        <div class="transaction-list">
+
+        <div id="skeletonActivity">
+            <div class="transaction-item"><div class="skeleton skeleton-title"></div></div>
+            <div class="transaction-item"><div class="skeleton skeleton-title"></div></div>
+            <div class="transaction-item"><div class="skeleton skeleton-title"></div></div>
+        </div>
+
+        <div id="realActivity" class="transaction-list" style="display:none;">
             <div class="transaction-item">
-                <div class="transaction-icon">🛒</div>
                 <div class="transaction-details">
                     <div class="transaction-merchant">Whole Foods Market</div>
                     <div class="transaction-date">Today • 2:45 PM</div>
                 </div>
                 <div class="transaction-amount">-$86.42</div>
             </div>
-            
             <div class="transaction-item">
-                <div class="transaction-icon">☕</div>
                 <div class="transaction-details">
                     <div class="transaction-merchant">Starbucks</div>
                     <div class="transaction-date">Yesterday • 8:30 AM</div>
                 </div>
                 <div class="transaction-amount">-$5.75</div>
             </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">🚕</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Uber Ride</div>
-                    <div class="transaction-date">Jan 30 • 9:15 PM</div>
-                </div>
-                <div class="transaction-amount">-$24.36</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">🎬</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Netflix</div>
-                    <div class="transaction-date">Jan 29 • 12:00 AM</div>
-                </div>
-                <div class="transaction-amount">-$15.99</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">🛍️</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Amazon</div>
-                    <div class="transaction-date">Jan 28 • 3:22 PM</div>
-                </div>
-                <div class="transaction-amount">-$129.50</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">💰</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Direct Deposit</div>
-                    <div class="transaction-date">Jan 28 • 12:00 AM</div>
-                </div>
-                <div class="transaction-amount credit">+$3,250.00</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">🏠</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Rent Payment</div>
-                    <div class="transaction-date">Jan 27 • 9:00 AM</div>
-                </div>
-                <div class="transaction-amount">-$1,850.00</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">⚡</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Electric Bill</div>
-                    <div class="transaction-date">Jan 26 • 11:30 AM</div>
-                </div>
-                <div class="transaction-amount">-$87.25</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">🏦</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">ATM Withdrawal</div>
-                    <div class="transaction-date">Jan 25 • 4:15 PM</div>
-                </div>
-                <div class="transaction-amount">-$100.00</div>
-            </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">🍽️</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Italian Restaurant</div>
-                    <div class="transaction-date">Jan 24 • 7:45 PM</div>
-                </div>
-                <div class="transaction-amount">-$68.90</div>
-            </div>
         </div>
-        
-        <!-- Bottom Navigation -->
+
         <div class="padding-bottom"></div>
         <nav class="bottom-nav">
-            <a href="./index.html">
-                <span class="icon-home"></span>
-                <span>Home</span>
-            </a>
-            <a href="./transactions.html" class="active">
-                <span class="icon-activity"></span>
-                <span>Activity</span>
-            </a>
-            <a href="./payments.html">
-                <span class="icon-pay"></span>
-                <span>Pay</span>
-            </a>
-            <a href="./settings.html">
-                <span class="icon-settings"></span>
-                <span>Settings</span>
-            </a>
+            <a href="./index.html"><img src="https://i.ibb.co/dszZ9z87/home-ICO.png" class="nav-icon"><span>Home</span></a>
+            <a href="./transactions.html" class="active"><img src="https://i.ibb.co/zW419DBz/activity-ICO.png" class="nav-icon"><span>Activity</span></a>
+            <a href="#"><img src="https://i.ibb.co/jZqTQ7Ts/benefits-ICO.png" class="nav-icon"><span>Benefits</span></a>
+            <a href="./settings.html"><img src="https://i.ibb.co/1CgTScs/settings-ICO.png" class="nav-icon"><span>Settings</span></a>
         </nav>
-        
-        <div class="last-updated">Showing last 30 days</div>
     </div>
-</div>
-    <!-- Add this script before closing body -->
-<script>
-    window.addEventListener('load', function() {
-        const splashScreen = document.getElementById('splashScreen');
-        const mainApp = document.getElementById('mainApp');
-        
-        setTimeout(function() {
-            splashScreen.style.opacity = '0';
-            splashScreen.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(function() {
-                splashScreen.style.display = 'none';
-                mainApp.style.display = 'block';
-                setTimeout(() => mainApp.style.opacity = '1', 10);
-            }, 500);
-        }, 1500);
-    });
-</script>
-    <!-- iOS PWA Fix Script -->
+
+    <script src="app.js"></script>
     <script>
-        // Fix for iOS Home Screen Launch
-        if (window.navigator.standalone) {
-            // Running as PWA on iOS
-            console.log('Running as iOS PWA - Transactions');
-            
-            // Fix any remaining relative paths
-            document.querySelectorAll('a[href^="./"]').forEach(link => {
-                const href = link.getAttribute('href');
-                link.setAttribute('href', '/pwa/' + href.substring(2));
-            });
-        }
-        
-        // Optional Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/pwa/service-worker.js')
-                .catch(err => console.log('Service worker not registered'));
-        }
-        
-        // Prevent iOS bounce/scroll issues
-        document.addEventListener('touchmove', function(e) {
-            if (document.querySelector('.app').scrollTop === 0) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+        // Simple loader simulation
+        setTimeout(() => {
+            document.getElementById('skeletonActivity').style.display = 'none';
+            document.getElementById('realActivity').style.display = 'block';
+        }, 700);
     </script>
 </body>
 </html>
