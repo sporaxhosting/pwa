@@ -39,7 +39,7 @@ body {
 .splash-logo {
     width: 300px; /* Fixed width instead of percentage */
     height: auto;
-    max-width: 50%;
+    max-width: 80%;
     margin-bottom: 30px;
 }
 
