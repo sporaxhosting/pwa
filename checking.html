@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Checking Account | BankFlow</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BankFlow">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#004877">
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Zk1b3xC/capital1-152.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/R4Q6WHBP/capital1-180.png">
+    
+    <!-- IMPORTANT: Base tag for GitHub Pages routing -->
+    <base href="/pwa/">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkJhbmtGbG93IiwKICAic2hvcnRfbmFtZSI6ICJCYW5rRmxvdyIsCiAgImRlc2NyaXB0aW9uIjogIlNpbXBsZSBiYW5raW5nIFBXQSIsCiAgInN0YXJ0X3VybCI6ICIuL2luZGV4Lmh0bWwiLAogICJzY29wZSI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDQ4NzciLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vaS5pbWdiYi5jby9aazFiM1hDL2NhcGl0YWwxLTE1Mi5wbmciLAogICAgICAic2l6ZXMiOiAiMTUyeDE1MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0">
+    
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checking-header {
+            padding: 60px 16px 20px 16px;
+            background: linear-gradient(135deg, #004877 0%, #003355 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .checking-balance {
+            font-size: 40px;
+            font-weight: 300;
+            margin: 10px 0 5px 0;
+        }
+        
+        .account-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 16px;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 12px;
+            background: #004877;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            max-width: 120px;
+        }
+        
+        .action-button.secondary {
+            background: #f0f4f8;
+            color: #004877;
+        }
+        
+        .account-details {
+            margin: 20px 16px;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .back-button {
+            position: absolute;
+            left: 16px;
+            top: 70px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-content">
+            <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow Logo" class="splash-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app" id="mainApp" style="display: none;">
+        <!-- Header -->
+        <div class="checking-header">
+            <button class="back-button" onclick="window.location.href='./index.html'">←</button>
+            <h1>Checking Account</h1>
+            <div class="checking-balance">$8,452.12</div>
+            <p>Available balance •••4582</p>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="account-actions">
+            <button class="action-button">Transfer</button>
+            <button class="action-button">Pay</button>
+            <button class="action-button secondary" onclick="window.location.href='./transactions.html'">
+                View Activity
+            </button>
+        </div>
+        
+        <!-- Account Details -->
+        <div class="account-details">
+            <div class="detail-row">
+                <span class="detail-label">Account Number</span>
+                <span class="detail-value">••• 4582</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Routing Number</span>
+                <span class="detail-value">021000021</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Account Type</span>
+                <span class="detail-value">Personal Checking</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Opened</span>
+                <span class="detail-value">Jan 15, 2020</span>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="padding-bottom"></div>
+        <nav class="bottom-nav">
+            <a href="./index.html">
+                <img src="https://i.ibb.co/dszZ9z87/home-ICO.png" alt="Home" class="nav-icon">
+                <span>Home</span>
+            </a>
+            <a href="./transactions.html" class="active">
+                <img src="https://i.ibb.co/zW419DBz/activity-ICO.png" alt="Activity" class="nav-icon">
+                <span>Activity</span>
+            </a>
+            <a href="#">
+                <img src="https://i.ibb.co/jZqTQ7Ts/benefits-ICO.png" alt="Benefits" class="nav-icon">
+                <span>Benefits</span>
+            </a>
+            <a href="./settings.html">
+                <img src="https://i.ibb.co/1CgTScs/settings-ICO.png" alt="Settings" class="nav-icon">
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const splashScreen = document.getElementById('splashScreen');
+            const mainApp = document.getElementById('mainApp');
+            
+            setTimeout(function() {
+                splashScreen.style.opacity = '0';
+                splashScreen.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(function() {
+                    splashScreen.style.display = 'none';
+                    mainApp.style.display = 'block';
+                    setTimeout(() => mainApp.style.opacity = '1', 10);
+                }, 500);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
