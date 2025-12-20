@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        // GitHub Pages 404 redirect - fixes home screen app launch
+        const path = window.location.pathname;
+        
+        // If it's the root path, redirect to index.html
+        if (path === '/' || path === '/pwa/' || path === '/pwa') {
+            window.location.href = '/pwa/index.html';
+        }
+        // If it's a page without .html extension, try to find it
+        else if (!path.includes('.html') && !path.includes('.')) {
+            const page = path.split('/').pop();
+            if (page) {
+                window.location.href = '/pwa/' + page + '.html';
+            } else {
+                window.location.href = '/pwa/index.html';
+            }
+        }
+        // Otherwise show actual 404
+        else {
+            document.write('<h1>Page not found</h1>');
+            document.write('<p>Redirecting to app...</p>');
+            setTimeout(() => {
+                window.location.href = '/pwa/index.html';
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting to BankFlow app...</p>
+</body>
+</html>
