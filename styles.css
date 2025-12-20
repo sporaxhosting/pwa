@@ -1,231 +1,278 @@
-/* iOS PWA FIXES */
+/* ========== CORE iOS PWA FIXES ========== */
 html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Prevent text selection for a more native feel */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .app {
-  height: 100dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  background-color: #f5f7fa;
-  max-width: 500px;
-  margin: 0 auto;
+    height: 100dvh;
+    overflow-y: auto; /* Enable vertical scrolling */
+    -webkit-overflow-scrolling: touch;
+    background-color: #f5f7fa;
+    max-width: 500px;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out; /* Smooth app fade-in */
 }
 
-/* HEADER */
+/* ========== SPLASH SCREEN ========== */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #004877 0%, #003355 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.splash-logo {
+    width: 180px;
+    height: auto;
+    margin-bottom: 40px;
+    filter: brightness(0) invert(1); /* Ensures logo is white */
+}
+
+/* Spinner/Loading Circle */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ========== HEADER (Fixed to avoid clock) ========== */
 .header {
-  padding: 16px;
-  background: linear-gradient(135deg, #004877 0%, #003355 100%);
-  color: white;
+    padding: 60px 16px 16px 16px; /* Extra top padding for iPhone notch/status bar */
+    background: linear-gradient(135deg, #004877 0%, #003355 100%);
+    color: white;
+    position: relative;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
+.header-logo {
+    height: 28px;
+    width: auto;
+    filter: brightness(0) invert(1);
 }
 
 .header .subtitle {
-  margin: 4px 0 0;
-  opacity: 0.9;
-  font-size: 14px;
+    margin: 8px 0 0;
+    opacity: 0.9;
+    font-size: 14px;
 }
 
-/* ACCOUNT CARDS */
+/* ========== UPDATED ACCOUNT CARD LAYOUT ========== */
 .account-card {
-  background: white;
-  margin: 16px;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    background: white;
+    margin: 16px;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth card interaction */
 }
 
-.account-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+.account-card:active {
+    transform: scale(0.995); /* Subtle press effect */
+}
+
+.account-header-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to top */
+}
+
+.account-title-section {
+    flex: 1; /* Takes available space */
+    min-width: 0; /* Allows text truncation */
 }
 
 .account-name {
-  font-weight: 600;
-  color: #333;
+    font-weight: 600;
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 4px;
+    /* Truncate long text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
 }
 
 .account-number {
-  font-size: 12px;
-  color: #666;
+    font-size: 12px;
+    color: #666;
 }
 
-.balance {
-  font-size: 32px;
-  font-weight: 700;
-  color: #004877;
-  margin: 8px 0;
+.account-balance-section {
+    text-align: right;
 }
 
-.balance-subtitle {
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
+.balance-new {
+    font-size: 28px; /* Slightly smaller, thinner appearance */
+    font-weight: 300; /* Much thinner font-weight */
+    color: #004877;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
 }
 
-/* TRANSACTION LIST */
-.transaction-list {
-  margin: 16px;
+.balance-subtitle-new {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
 }
 
-.transaction-item {
-  background: white;
-  padding: 16px;
-  margin-bottom: 8px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+/* ========== CENTERED BUTTONS ========== */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the buttons */
+    margin: 16px;
 }
 
-.transaction-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background: #eef5ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 16px;
-  color: #004877;
-}
-
-.transaction-details {
-  flex: 1;
-}
-
-.transaction-merchant {
-  font-weight: 600;
-  color: #333;
-}
-
-.transaction-date {
-  font-size: 12px;
-  color: #666;
-  margin-top: 2px;
-}
-
-.transaction-amount {
-  font-weight: 600;
-  color: #d50000;
-}
-
-.transaction-amount.credit {
-  color: #00a86b;
-}
-
-/* BUTTONS */
 .button {
-  display: block;
-  width: calc(100% - 32px);
-  margin: 16px;
-  padding: 16px;
-  background: #004877;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
+    display: block;
+    width: 100%; /* Full width of container */
+    max-width: 400px; /* But not too wide */
+    padding: 16px;
+    margin: 8px 0;
+    background: #004877;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.25s ease; /* Smooth button transition */
 }
 
 .button.secondary {
-  background: #f0f4f8;
-  color: #004877;
+    background: #f0f4f8;
+    color: #004877;
 }
 
-/* FORM ELEMENTS */
-.input-group {
-  margin: 16px;
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
+/* Button interaction states */
+.button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
 }
 
-.input-label {
-  display: block;
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
+/* ========== TRANSACTION LIST ========== */
+.transaction-list {
+    margin: 16px;
 }
 
-.input-field {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 16px;
-  box-sizing: border-box;
+.transaction-item {
+    background: white;
+    padding: 16px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
 }
 
-/* BOTTOM NAVIGATION */
+.transaction-item:active {
+    transform: scale(0.995);
+}
+
+.transaction-details {
+    flex: 1;
+}
+
+.transaction-merchant {
+    font-weight: 600;
+    color: #333;
+}
+
+.transaction-date {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.transaction-amount {
+    font-weight: 600;
+    color: #d50000;
+}
+
+.transaction-amount.credit {
+    color: #00a86b;
+}
+
+/* ========== BOTTOM NAVIGATION (NEW ICONS) ========== */
 .bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  border-top: 1px solid #e0e0e0;
-  display: flex;
-  justify-content: space-around;
-  padding: 12px 0;
-  max-width: 500px;
-  margin: 0 auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    max-width: 500px;
+    margin: 0 auto;
+    z-index: 100;
 }
 
 .bottom-nav a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: #666;
-  font-size: 12px;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 12px;
+    flex: 1;
+    transition: color 0.2s ease;
 }
 
 .bottom-nav a.active {
-  color: #004877;
+    color: #004877;
 }
 
-.bottom-nav i {
-  font-size: 20px;
-  margin-bottom: 4px;
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    object-fit: contain; /* Ensures icons keep aspect ratio */
 }
 
-/* UTILITY */
+/* ========== UTILITY ========== */
 .padding-bottom {
-  padding-bottom: 70px; /* Space for bottom nav */
-}
-
-.text-center {
-  text-align: center;
+    padding-bottom: 80px; /* Space for bottom nav */
 }
 
 .last-updated {
-  text-align: center;
-  color: #999;
-  font-size: 12px;
-  padding: 8px;
-  margin-top: 16px;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    padding: 16px;
+    margin-top: 16px;
 }
-
-/* ICONS USING UNICODE/EMOJI (No external dependencies) */
-.icon-home::before { content: "🏠"; }
-.icon-activity::before { content: "📊"; }
-.icon-pay::before { content: "💸"; }
-.icon-settings::before { content: "⚙️"; }
-.icon-checking::before { content: "💳"; }
-.icon-savings::before { content: "💰"; }
-.icon-credit::before { content: "🛒"; }
