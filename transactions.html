@@ -8,6 +8,8 @@
     <!-- PWA Meta -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BankFlow">
+    <meta name="apple-touch-fullscreen" content="yes">
     <meta name="theme-color" content="#004877">
     
     <!-- Icons -->
@@ -23,7 +25,7 @@
     <style>
         /* Additional styles for transactions page */
         .transactions-header {
-            position: sticky;
+            position: fixed;
             top: 0;
             z-index: 50;
             padding: calc(env(safe-area-inset-top) + 16px) 16px 20px;
@@ -47,6 +49,13 @@
     </style>
 </head>
 
+<script>
+if (window.navigator.standalone !== true) {
+    // Prevent Safari fallback when launched from home screen
+    document.documentElement.style.height = '100%';
+}
+</script>
+    
 <body>
 
 <!-- Splash -->
