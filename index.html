@@ -31,7 +31,6 @@
     <!-- Splash Screen (visible first, then hidden) -->
     <div id="splashScreen" class="splash-screen">
         <div class="splash-content">
-            <!-- Your white logo, make sure the URL is correct -->
             <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow Logo" class="splash-logo">
             <div class="spinner"></div>
         </div>
@@ -39,26 +38,29 @@
 
     <!-- Main App (hidden initially) -->
     <div class="app" id="mainApp" style="display: none;">
-        <!-- Header with Logo -->
+        <!-- Header with centered Logo -->
         <div class="header">
-            <!-- Your white logo, make sure the URL is correct -->
-            <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow" class="header-logo">
-            <p class="subtitle">Welcome back, Alex</p>
-        </div>
-        
-        <!-- Account Card - UPDATED LAYOUT -->
-        <div class="account-card">
-            <div class="account-header-new">
-                <div class="account-title-section">
-                    <div class="account-name">Checking Account</div>
-                    <div class="account-number">••• 4582</div>
-                </div>
-                <div class="account-balance-section">
-                    <div class="balance-new">$8,452.12</div>
-                    <div class="balance-subtitle-new">Available balance</div>
-                </div>
+            <div class="header-center">
+                <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow" class="header-logo">
+                <p class="welcome-name">JOHN SMITH</p>
             </div>
         </div>
+        
+        <!-- Account Cards - Make Checking clickable -->
+        <a href="./checking.html" class="account-card-link">
+            <div class="account-card">
+                <div class="account-header-new">
+                    <div class="account-title-section">
+                        <div class="account-name">Checking Account</div>
+                        <div class="account-number">••• 4582</div>
+                    </div>
+                    <div class="account-balance-section">
+                        <div class="balance-new">$8,452.12</div>
+                        <div class="balance-subtitle-new">Available balance</div>
+                    </div>
+                </div>
+            </div>
+        </a>
         
         <div class="account-card">
             <div class="account-header-new">
@@ -86,15 +88,19 @@
             </div>
         </div>
         
-        <!-- Send Payment Button - Now Centered -->
-        <div class="button-container">
-            <a href="./payments.html" class="button">Send Payment</a>
-            <a href="./transactions.html" class="button secondary">View All Transactions</a>
+        <!-- Open New Account Button -->
+        <div class="open-account-container">
+            <button class="open-account-button">
+                + Open a new account
+            </button>
         </div>
         
         <!-- Recent Transactions -->
         <div class="transaction-list">
-            <h2>Recent Activity</h2>
+            <div class="section-header">
+                <h2 class="section-title">Recent Activity</h2>
+                <a href="./transactions.html" class="view-more-button">View more</a>
+            </div>
             
             <div class="transaction-item">
                 <div class="transaction-details">
@@ -111,30 +117,34 @@
                 </div>
                 <div class="transaction-amount">-$5.75</div>
             </div>
+            
+            <div class="transaction-item">
+                <div class="transaction-details">
+                    <div class="transaction-merchant">Direct Deposit</div>
+                    <div class="transaction-date">Feb 1 • 12:00 AM</div>
+                </div>
+                <div class="transaction-amount credit">+$3,250.00</div>
+            </div>
         </div>
         
         <!-- Space for Bottom Navigation -->
         <div class="padding-bottom"></div>
         
-        <!-- Bottom Navigation with NEW ICONS -->
+        <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <a href="./index.html" class="active">
-                <!-- Home Icon -->
                 <img src="https://i.ibb.co/dszZ9z87/home-ICO.png" alt="Home" class="nav-icon">
                 <span>Home</span>
             </a>
             <a href="./transactions.html">
-                <!-- Activity Icon -->
                 <img src="https://i.ibb.co/zW419DBz/activity-ICO.png" alt="Activity" class="nav-icon">
                 <span>Activity</span>
             </a>
             <a href="#">
-                <!-- Benefits Icon (link placeholder) -->
                 <img src="https://i.ibb.co/jZqTQ7Ts/benefits-ICO.png" alt="Benefits" class="nav-icon">
                 <span>Benefits</span>
             </a>
             <a href="./settings.html">
-                <!-- Settings Icon -->
                 <img src="https://i.ibb.co/1CgTScs/settings-ICO.png" alt="Settings" class="nav-icon">
                 <span>Settings</span>
             </a>
@@ -162,19 +172,38 @@
                     mainApp.style.display = 'block';
                     // Trigger a reflow to enable transition
                     setTimeout(() => mainApp.style.opacity = '1', 10);
-                }, 500); // Wait for fade out
-                
-            }, 2500); // Initial splash screen duration
+                }, 500);
+            }, 2500);
         });
 
         // Fix for iOS Home Screen Launch
         if (window.navigator.standalone) {
             console.log('Running as iOS PWA');
+            
+            // Fix navigation links for iOS PWA
             document.querySelectorAll('a[href^="./"]').forEach(link => {
                 const href = link.getAttribute('href');
-                link.setAttribute('href', '/pwa/' + href.substring(2));
+                if (href && href !== '#') {
+                    link.setAttribute('href', '/pwa/' + href.substring(2));
+                }
             });
         }
+        
+        // Handle page navigation with splash screen
+        document.querySelectorAll('a[href]').forEach(link => {
+            if (link.getAttribute('href') && !link.getAttribute('href').startsWith('#')) {
+                link.addEventListener('click', function(e) {
+                    // Only show splash for same-origin navigation
+                    if (this.href && this.href.startsWith(window.location.origin)) {
+                        const splash = document.getElementById('splashScreen');
+                        if (splash) {
+                            splash.style.display = 'flex';
+                            splash.style.opacity = '1';
+                        }
+                    }
+                });
+            }
+        });
         
         // Optional Service Worker
         if ('serviceWorker' in navigator) {
