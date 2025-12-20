@@ -31,6 +31,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Add this at the start of the body -->
+<div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+        <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow Logo" class="splash-logo">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- Wrap your existing content in this div -->
+<div class="app" id="mainApp" style="display: none;">
+    <!-- Your existing transactions content here -->
+
     <div class="app">
         <!-- Header -->
         <div class="header">
@@ -154,7 +166,25 @@
         
         <div class="last-updated">Showing last 30 days</div>
     </div>
-    
+</div>
+    <!-- Add this script before closing body -->
+<script>
+    window.addEventListener('load', function() {
+        const splashScreen = document.getElementById('splashScreen');
+        const mainApp = document.getElementById('mainApp');
+        
+        setTimeout(function() {
+            splashScreen.style.opacity = '0';
+            splashScreen.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(function() {
+                splashScreen.style.display = 'none';
+                mainApp.style.display = 'block';
+                setTimeout(() => mainApp.style.opacity = '1', 10);
+            }, 500);
+        }, 1500);
+    });
+</script>
     <!-- iOS PWA Fix Script -->
     <script>
         // Fix for iOS Home Screen Launch
