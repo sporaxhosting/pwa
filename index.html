@@ -12,79 +12,91 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#004877">
     
-    <!-- App Icons - iOS REQUIRES 180x180 PNG -->
+    <!-- App Icons -->
     <link rel="icon" type="image/png" href="https://i.ibb.co/Zk1b3xC/capital1-152.png">
     <link rel="apple-touch-icon" href="https://i.ibb.co/R4Q6WHBP/capital1-180.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/R4Q6WHBP/capital1-180.png">
     <link rel="apple-touch-icon" sizes="167x167" href="https://i.ibb.co/5XPqtswP/capital1-167.png">
     <link rel="apple-touch-icon" sizes="152x152" href="https://i.ibb.co/Zk1b3xC/capital1-152.png">
     
-    <!-- iOS Splash Screens -->
-    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIGZpbGw9IiMwMDQ4NzciLz48Y2lyY2xlIGN4PSI1MTIiIGN5PSI0MDAiIHI9IjEwMCIgZmlsbD0id2hpdGUiLz48dGV4dCB4PSI1MTIiIHk9IjY1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkludGVyLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQ4IiBmaWxsPSJ3aGl0ZSI+QmFua0Zsb3c8L3RleHQ+PC9zdmc+">
-    
     <!-- IMPORTANT: Base tag for GitHub Pages routing -->
     <base href="/pwa/">
     
-    <!-- Web App Manifest (for Android/iOS) -->
+    <!-- Web App Manifest -->
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkJhbmtGbG93IiwKICAic2hvcnRfbmFtZSI6ICJCYW5rRmxvdyIsCiAgImRlc2NyaXB0aW9uIjogIlNpbXBsZSBiYW5raW5nIFBXQSIsCiAgInN0YXJ0X3VybCI6ICIuL2luZGV4Lmh0bWwiLAogICJzY29wZSI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDQ4NzciLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vaS5pbWdiYi5jby9aazFiM1hDL2NhcGl0YWwxLTE1Mi5wbmciLAogICAgICAic2l6ZXMiOiAiMTUyeDE1MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pLmltZ2JiLmNvLzVYUHFlc3dwUC9jYXBpdGFsMS0xNjcucG5nIiwKICAgICAgInNpemVzIjogIjE2N3gxNjciLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vaS5pbWdiYi5jby9SNFE2V0hCUC9jYXBpdGFsMS0xODAucG5nIiwKICAgICAgInNpemVzIjogIjE4MHgxODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
     
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app">
-        <!-- Header -->
+    <!-- Splash Screen (visible first, then hidden) -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-content">
+            <!-- Your white logo, make sure the URL is correct -->
+            <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow Logo" class="splash-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- Main App (hidden initially) -->
+    <div class="app" id="mainApp" style="display: none;">
+        <!-- Header with Logo -->
         <div class="header">
-            <h1>BankFlow</h1>
+            <!-- Your white logo, make sure the URL is correct -->
+            <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" alt="BankFlow" class="header-logo">
             <p class="subtitle">Welcome back, Alex</p>
         </div>
         
-        <!-- Account Cards -->
+        <!-- Account Card - UPDATED LAYOUT -->
         <div class="account-card">
-            <div class="account-header">
-                <div>
+            <div class="account-header-new">
+                <div class="account-title-section">
                     <div class="account-name">Checking Account</div>
                     <div class="account-number">••• 4582</div>
                 </div>
-                <span class="icon-checking"></span>
+                <div class="account-balance-section">
+                    <div class="balance-new">$8,452.12</div>
+                    <div class="balance-subtitle-new">Available balance</div>
+                </div>
             </div>
-            <div class="balance">$8,452.12</div>
-            <div class="balance-subtitle">Available balance</div>
         </div>
         
         <div class="account-card">
-            <div class="account-header">
-                <div>
+            <div class="account-header-new">
+                <div class="account-title-section">
                     <div class="account-name">Savings Account</div>
                     <div class="account-number">••• 7619</div>
                 </div>
-                <span class="icon-savings"></span>
+                <div class="account-balance-section">
+                    <div class="balance-new">$15,237.89</div>
+                    <div class="balance-subtitle-new">2.5% APY</div>
+                </div>
             </div>
-            <div class="balance">$15,237.89</div>
-            <div class="balance-subtitle">2.5% APY</div>
         </div>
         
         <div class="account-card">
-            <div class="account-header">
-                <div>
+            <div class="account-header-new">
+                <div class="account-title-section">
                     <div class="account-name">Credit Card</div>
                     <div class="account-number">••• 3241</div>
                 </div>
-                <span class="icon-credit"></span>
+                <div class="account-balance-section">
+                    <div class="balance-new">$1,245.50</div>
+                    <div class="balance-subtitle-new">Due Feb 15</div>
+                </div>
             </div>
-            <div class="balance">$1,245.50</div>
-            <div class="balance-subtitle">Due Feb 15</div>
         </div>
         
-        <!-- Quick Actions -->
-        <a href="./payments.html" class="button">Send Payment</a>
-        <a href="./transactions.html" class="button secondary">View All Transactions</a>
+        <!-- Send Payment Button - Now Centered -->
+        <div class="button-container">
+            <a href="./payments.html" class="button">Send Payment</a>
+            <a href="./transactions.html" class="button secondary">View All Transactions</a>
+        </div>
         
         <!-- Recent Transactions -->
         <div class="transaction-list">
             <h2>Recent Activity</h2>
             
             <div class="transaction-item">
-                <div class="transaction-icon">🛒</div>
                 <div class="transaction-details">
                     <div class="transaction-merchant">Whole Foods Market</div>
                     <div class="transaction-date">Today • 2:45 PM</div>
@@ -93,74 +105,82 @@
             </div>
             
             <div class="transaction-item">
-                <div class="transaction-icon">☕</div>
                 <div class="transaction-details">
                     <div class="transaction-merchant">Starbucks</div>
                     <div class="transaction-date">Yesterday • 8:30 AM</div>
                 </div>
                 <div class="transaction-amount">-$5.75</div>
             </div>
-            
-            <div class="transaction-item">
-                <div class="transaction-icon">💰</div>
-                <div class="transaction-details">
-                    <div class="transaction-merchant">Direct Deposit</div>
-                    <div class="transaction-date">Feb 1 • 12:00 AM</div>
-                </div>
-                <div class="transaction-amount credit">+$3,250.00</div>
-            </div>
         </div>
         
-        <!-- Bottom Navigation -->
+        <!-- Space for Bottom Navigation -->
         <div class="padding-bottom"></div>
+        
+        <!-- Bottom Navigation with NEW ICONS -->
         <nav class="bottom-nav">
             <a href="./index.html" class="active">
-                <span class="icon-home"></span>
+                <!-- Home Icon -->
+                <img src="https://i.ibb.co/dszZ9z87/home-ICO.png" alt="Home" class="nav-icon">
                 <span>Home</span>
             </a>
             <a href="./transactions.html">
-                <span class="icon-activity"></span>
+                <!-- Activity Icon -->
+                <img src="https://i.ibb.co/zW419DBz/activity-ICO.png" alt="Activity" class="nav-icon">
                 <span>Activity</span>
             </a>
-            <a href="./payments.html">
-                <span class="icon-pay"></span>
-                <span>Pay</span>
+            <a href="#">
+                <!-- Benefits Icon (link placeholder) -->
+                <img src="https://i.ibb.co/jZqTQ7Ts/benefits-ICO.png" alt="Benefits" class="nav-icon">
+                <span>Benefits</span>
             </a>
             <a href="./settings.html">
-                <span class="icon-settings"></span>
+                <!-- Settings Icon -->
+                <img src="https://i.ibb.co/1CgTScs/settings-ICO.png" alt="Settings" class="nav-icon">
                 <span>Settings</span>
             </a>
         </nav>
         
         <div class="last-updated">Updated just now</div>
     </div>
-    
-    <!-- iOS PWA Fix Script -->
+
+    <!-- iOS PWA Fix and Splash Screen Script -->
     <script>
+        // Wait for everything to load
+        window.addEventListener('load', function() {
+            const splashScreen = document.getElementById('splashScreen');
+            const mainApp = document.getElementById('mainApp');
+            
+            // Show splash for 2.5 seconds
+            setTimeout(function() {
+                // Fade out splash
+                splashScreen.style.opacity = '0';
+                splashScreen.style.transition = 'opacity 0.5s ease';
+                
+                // After fade, hide splash and show app
+                setTimeout(function() {
+                    splashScreen.style.display = 'none';
+                    mainApp.style.display = 'block';
+                    // Trigger a reflow to enable transition
+                    setTimeout(() => mainApp.style.opacity = '1', 10);
+                }, 500); // Wait for fade out
+                
+            }, 2500); // Initial splash screen duration
+        });
+
         // Fix for iOS Home Screen Launch
         if (window.navigator.standalone) {
-            // Running as PWA on iOS
             console.log('Running as iOS PWA');
-            
-            // Fix any remaining relative paths
             document.querySelectorAll('a[href^="./"]').forEach(link => {
                 const href = link.getAttribute('href');
                 link.setAttribute('href', '/pwa/' + href.substring(2));
             });
         }
         
-        // Optional Service Worker Registration
+        // Optional Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/pwa/service-worker.js')
                 .catch(err => console.log('Service worker not registered'));
         }
-        
-        // Prevent iOS bounce/scroll issues
-        document.addEventListener('touchmove', function(e) {
-            if (document.querySelector('.app').scrollTop === 0) {
-                e.preventDefault();
-            }
-        }, { passive: false });
     </script>
 </body>
 </html>
