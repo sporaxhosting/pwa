@@ -15,14 +15,27 @@ document.querySelectorAll('a[href]').forEach(link => {
     }
 });
 
-// Pull to Refresh logic (Simplified)
+// Pull to Refresh logic (LESS SENSITIVE)
 let startY = 0;
+let pullStartTime = 0;
 const app = document.querySelector('.app');
-app.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
-app.addEventListener('touchmove', e => {
-    const delta = e.touches[0].clientY - startY;
-    if (delta > 60 && app.scrollTop === 0) {
-        hapticMedium();
-        // Trigger your refresh logic here
+
+app.addEventListener('touchstart', e => { 
+    if (app.scrollTop === 0) {
+        startY = e.touches[0].clientY;
+        pullStartTime = Date.now();
     }
 });
+
+app.addEventListener('touchmove', e => {
+    const delta = e.touches[0].clientY - startY;
+    const timeElapsed = Date.now() - pullStartTime;
+    
+    // Only trigger if pulled significantly AND slowly (not during normal scroll)
+    if (delta > 100 && app.scrollTop === 0 && timeElapsed > 100) {
+        e.preventDefault();
+        hapticMedium();
+        // Trigger your refresh logic here
+        console.log("Pull to refresh triggered");
+    }
+}, { passive: false });
