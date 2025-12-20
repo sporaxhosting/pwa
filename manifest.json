@@ -2,21 +2,28 @@
   "name": "BankFlow",
   "short_name": "BankFlow",
   "description": "Simple banking PWA",
-  "start_url": "/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#004877",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "https://i.ibb.co/PvKgz5y3/capital1-192.png"
+      "src": "https://i.ibb.co/Zk1b3xC/capital1-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "https://i.ibb.co/Fqbk0twV/capital1.png"
+      "src": "https://i.ibb.co/5XPqtswP/capital1-167.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.ibb.co/R4Q6WHBP/capital1-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
     }
   ]
 }
