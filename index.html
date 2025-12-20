@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BankFlow">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <title>BankFlow - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <div class="header">
+            <h1>BankFlow</h1>
+            <p class="subtitle">Welcome back, Alex</p>
+        </div>
+        
+        <!-- Account Cards -->
+        <div class="account-card">
+            <div class="account-header">
+                <div>
+                    <div class="account-name">Checking Account</div>
+                    <div class="account-number">••• 4582</div>
+                </div>
+                <span class="icon-checking"></span>
+            </div>
+            <div class="balance">$8,452.12</div>
+            <div class="balance-subtitle">Available balance</div>
+        </div>
+        
+        <div class="account-card">
+            <div class="account-header">
+                <div>
+                    <div class="account-name">Savings Account</div>
+                    <div class="account-number">••• 7619</div>
+                </div>
+                <span class="icon-savings"></span>
+            </div>
+            <div class="balance">$15,237.89</div>
+            <div class="balance-subtitle">2.5% APY</div>
+        </div>
+        
+        <div class="account-card">
+            <div class="account-header">
+                <div>
+                    <div class="account-name">Credit Card</div>
+                    <div class="account-number">••• 3241</div>
+                </div>
+                <span class="icon-credit"></span>
+            </div>
+            <div class="balance">$1,245.50</div>
+            <div class="balance-subtitle">Due Feb 15</div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <a href="payments.html" class="button">Send Payment</a>
+        <a href="transactions.html" class="button secondary">View All Transactions</a>
+        
+        <!-- Recent Transactions -->
+        <div class="transaction-list">
+            <h2>Recent Activity</h2>
+            
+            <div class="transaction-item">
+                <div class="transaction-icon">🛒</div>
+                <div class="transaction-details">
+                    <div class="transaction-merchant">Whole Foods Market</div>
+                    <div class="transaction-date">Today • 2:45 PM</div>
+                </div>
+                <div class="transaction-amount">-$86.42</div>
+            </div>
+            
+            <div class="transaction-item">
+                <div class="transaction-icon">☕</div>
+                <div class="transaction-details">
+                    <div class="transaction-merchant">Starbucks</div>
+                    <div class="transaction-date">Yesterday • 8:30 AM</div>
+                </div>
+                <div class="transaction-amount">-$5.75</div>
+            </div>
+            
+            <div class="transaction-item">
+                <div class="transaction-icon">💰</div>
+                <div class="transaction-details">
+                    <div class="transaction-merchant">Direct Deposit</div>
+                    <div class="transaction-date">Feb 1 • 12:00 AM</div>
+                </div>
+                <div class="transaction-amount credit">+$3,250.00</div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="padding-bottom"></div>
+        <nav class="bottom-nav">
+            <a href="index.html" class="active">
+                <span class="icon-home"></span>
+                <span>Home</span>
+            </a>
+            <a href="transactions.html">
+                <span class="icon-activity"></span>
+                <span>Activity</span>
+            </a>
+            <a href="payments.html">
+                <span class="icon-pay"></span>
+                <span>Pay</span>
+            </a>
+            <a href="settings.html">
+                <span class="icon-settings"></span>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="last-updated">Updated just now</div>
+    </div>
+    
+    <!-- Optional Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .catch(err => console.log('Service worker not registered'));
+        }
+        
+        // Prevent iOS bounce/scroll issues
+        document.addEventListener('touchmove', function(e) {
+            if (document.querySelector('.app').scrollTop === 0) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
