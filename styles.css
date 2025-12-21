@@ -335,3 +335,35 @@ body {
 .padding-bottom {
     padding-bottom: calc(80px + env(safe-area-inset-bottom));
 }
+
+/* ===== SPA VIEW SYSTEM ===== */
+
+.view-container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.view {
+  position: absolute;
+  inset: 0;
+  background: #f4f7f9;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+.view.active {
+  transform: translateX(0);
+}
+
+.view.exit-left {
+  transform: translateX(-20%);
+  opacity: 0;
+}
+
+/* Prevent Safari pull-down chrome */
+html, body {
+  overscroll-behavior: none;
+  height: 100%;
+}
+
