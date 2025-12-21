@@ -1,263 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>BankFlow</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <!-- PWA Meta -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#004877">
+  <title>BankFlow</title>
 
-    <!-- Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/WW2MMSFP/caps180.png">
-    <link rel="icon" type="image/png" href="https://i.ibb.co/MkchD5Lj/caps152.png">
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#004877">
 
-    <!-- Routing -->
-    <base href="/pwa/">
+  <!-- ORIENTATION LOCK -->
+  <meta name="screen-orientation" content="portrait">
+  <meta name="apple-touch-fullscreen" content="yes">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/WW2MMSFP/caps180.png">
 </head>
 
 <body>
+  <div id="app" class="view-container"></div>
 
-<!-- Splash -->
-<div id="splashScreen" class="splash-screen">
-    <div class="splash-content">
-        <img src="https://i.ibb.co/84KGZg1B/BANKSPLASHLOGO.png" class="splash-logo">
-        <div class="spinner"></div>
-    </div>
-</div>
-
-<!-- App -->
-<div class="app" id="mainApp" style="display:none;">
-
-    <!-- Pull to Refresh -->
-    <div id="pullIndicator">
-        <div class="pull-spinner"></div>
-    </div>
-
-    <!-- Header -->
-    <div class="header">
-        <div class="header-center">
-            <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" class="header-logo">
-            <p class="welcome-name">NIKITA SUZUKI</p>
-        </div>
-    </div>
-
-    <!-- Skeleton Accounts -->
-    <div id="skeletonAccounts">
-        <div class="account-card-link">
-            <div class="account-card">
-                <div class="account-header-new">
-                    <div>
-                        <div class="skeleton skeleton-title"></div>
-                        <div class="skeleton skeleton-text" style="width:80px"></div>
-                    </div>
-                    <div class="skeleton skeleton-balance"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="account-card-link">
-            <div class="account-card">
-                <div class="account-header-new">
-                    <div>
-                        <div class="skeleton skeleton-title"></div>
-                        <div class="skeleton skeleton-text" style="width:80px"></div>
-                    </div>
-                    <div class="skeleton skeleton-balance"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Real Accounts -->
-    <div id="realAccounts" style="display:none;">
-
-        <a href="/pwa/checking.html" class="account-card-link nav-link">
-            <div class="account-card">
-                <div class="account-header-new">
-                    <div class="account-title-section">
-                        <div class="account-name">Checking Account</div>
-                        <div class="account-number">••• 4582</div>
-                    </div>
-                    <div class="account-balance-section">
-                        <div class="balance-new">$56,452.12</div>
-                        <div class="balance-subtitle-new">Available balance</div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <div class="account-card-link">
-            <div class="account-card">
-                <div class="account-header-new">
-                    <div class="account-title-section">
-                        <div class="account-name">Savings Account</div>
-                        <div class="account-number">••• 7619</div>
-                    </div>
-                    <div class="account-balance-section">
-                        <div class="balance-new">$189,237.84</div>
-                        <div class="balance-subtitle-new">2.34% APY</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="account-card-link">
-            <div class="account-card">
-                <div class="account-header-new">
-                    <div class="account-title-section">
-                        <div class="account-name">Credit Card</div>
-                        <div class="account-number">••• 3241</div>
-                    </div>
-                    <div class="account-balance-section">
-                        <div class="balance-new">$12,245.14</div>
-                        <div class="balance-subtitle-new">Due Feb 15</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Open Account -->
-    <div class="open-account-container">
-        <button class="open-account-button">+ Open a new account</button>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="transaction-list">
-        <div class="section-header">
-            <h2 class="section-title">Recent Activity</h2>
-        </div>
-
-        <div class="transaction-item">
-            <div>
-                <div class="transaction-merchant">WITHDRAWL (CASH)</div>
-                <div class="transaction-date">Today • 3:13 PM</div>
-            </div>
-            <div class="transaction-amount">-$40.89</div>
-        </div>
-
-        <div class="transaction-item">
-            <div>
-                <div class="transaction-merchant">DUNKIN</div>
-                <div class="transaction-date">Yesterday • 9:11 AM</div>
-            </div>
-            <div class="transaction-amount">-$5.71</div>
-        </div>
-
-        <a href="/pwa/transactions.html" class="view-more-button centered nav-link">
-            View more
-        </a>
-    </div>
-
-    <div class="padding-bottom"></div>
-
-    <!-- Bottom Nav -->
-    <nav class="bottom-nav">
-        <a href="/pwa/index.html" class="active">
-            <img src="https://i.ibb.co/dszZ9z87/home-ICO.png" class="nav-icon">
-            <span>Home</span>
-        </a>
-        <a href="/pwa/transactions.html" class="nav-link">
-            <img src="https://i.ibb.co/zW419DBz/activity-ICO.png" class="nav-icon">
-            <span>Activity</span>
-        </a>
-        <a href="#">
-            <img src="https://i.ibb.co/jZqTQ7Ts/benefits-ICO.png" class="nav-icon">
-            <span>Benefits</span>
-        </a>
-        <a href="./settings.html" class="nav-link">
-            <img src="https://i.ibb.co/1CgTScs/settings-ICO.png" class="nav-icon">
-            <span>Settings</span>
-        </a>
-    </nav>
-
-</div>
-
-<!-- Scripts -->
-<script>
-/* Splash + skeleton */
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        splashScreen.style.display = 'none';
-        mainApp.style.display = 'block';
-
-        setTimeout(() => {
-            skeletonAccounts.style.display = 'none';
-            realAccounts.style.display = 'block';
-        }, 700);
-    }, 1200);
-});
-
-/* Page transitions */
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        hapticLight();
-        mainApp.classList.add('page-exit');
-        setTimeout(() => window.location.href = link.href, 220);
-    });
-});
-
-/* Pull to refresh */
-let startY = 0, pulling = false, triggered = false;
-const indicator = document.getElementById('pullIndicator');
-const spinner = indicator.querySelector('.pull-spinner');
-
-mainApp.addEventListener('touchstart', e => {
-    if (mainApp.scrollTop === 0) {
-        startY = e.touches[0].clientY;
-        pulling = true;
-        triggered = false;
-    }
-});
-
-mainApp.addEventListener('touchmove', e => {
-    if (!pulling) return;
-    const delta = e.touches[0].clientY - startY;
-    if (delta > 0) {
-        e.preventDefault();
-        const pull = Math.min(delta, 80);
-        indicator.style.transform = `translateY(${pull}px)`;
-        spinner.style.opacity = pull > 20 ? 1 : 0;
-        if (pull > 60 && !triggered) {
-            triggered = true;
-            hapticLight();
-        }
-    }
-}, { passive:false });
-
-mainApp.addEventListener('touchend', () => {
-    indicator.style.transform = 'translateY(0)';
-    if (triggered) doRefresh();
-    pulling = false;
-});
-
-/* Refresh */
-function doRefresh() {
-    hapticMedium();
-    realAccounts.style.display = 'none';
-    skeletonAccounts.style.display = 'block';
-    setTimeout(() => {
-        skeletonAccounts.style.display = 'none';
-        realAccounts.style.display = 'block';
-    }, 700);
-}
-
-/* Haptics */
-function hapticLight() {
-    if (navigator.vibrate) navigator.vibrate(10);
-}
-function hapticMedium() {
-    if (navigator.vibrate) navigator.vibrate([20,30,20]);
-}
-</script>
-
+  <script src="app.js"></script>
 </body>
 </html>
