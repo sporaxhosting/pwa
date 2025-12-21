@@ -2,277 +2,211 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+/>
+
 <title>Checking Account</title>
 
-<!-- PWA Meta -->
+<!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BankFlow">
+
+<!-- Theme -->
 <meta name="theme-color" content="#004877">
+
+<!-- Manifest (CRITICAL) -->
+<link rel="manifest" href="/pwa/manifest.json">
 
 <!-- Icons -->
 <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/WW2MMSFP/caps180.png">
-<link rel="icon" type="image/png" href="https://i.ibb.co/MkchD5Lj/caps152.png">
-
-<base href="/pwa/">
+<link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/MkchD5Lj/caps152.png">
 
 <link rel="stylesheet" href="styles.css">
 
 <style>
-/* ===== LOCK PAGE (CRITICAL) ===== */
+/* ===== HARD LOCK ===== */
 html, body {
-    height: 100%;
-    overflow: hidden;
-    background: #f4f6f8;
+  margin: 0;
+  padding: 0;
+  height: 100dvh;
+  overflow: hidden;
+  background: #f4f6f8;
+  overscroll-behavior: none;
 }
 
 /* ===== APP SCROLLER ===== */
 .app {
-    height: 100dvh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
+  height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
-/* ===== HEADER (NOT STICKY) ===== */
+/* ===== HEADER ===== */
 .checking-header {
-    padding: calc(env(safe-area-inset-top) + 24px) 16px 20px;
-    background: linear-gradient(135deg, #004877 0%, #003355 100%);
-    color: white;
-    text-align: center;
+  padding: calc(env(safe-area-inset-top) + 24px) 16px 20px;
+  background: linear-gradient(135deg, #004877, #003355);
+  color: white;
+  text-align: center;
+  position: relative;
 }
 
-/* Back button */
 .back-button {
-    position: absolute;
-    left: 16px;
-    top: calc(env(safe-area-inset-top) + 18px);
-    font-size: 26px;
-    background: none;
-    border: none;
-    color: white;
+  position: absolute;
+  left: 16px;
+  top: calc(env(safe-area-inset-top) + 18px);
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: white;
 }
 
 .checking-balance {
-    font-size: 40px;
-    font-weight: 300;
-    margin-top: 12px;
+  font-size: 40px;
+  font-weight: 300;
+  margin-top: 12px;
 }
 
 .available-label {
-    font-size: 13px;
-    opacity: 0.85;
+  font-size: 13px;
+  opacity: 0.85;
 }
 
 /* ===== ACTIONS ===== */
 .account-actions {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 16px;
 }
 
 .action-button {
-    flex: 1;
-    max-width: 120px;
-    padding: 12px;
-    font-weight: 600;
-    border-radius: 12px;
-    border: none;
-    background: #004877;
-    color: white;
+  flex: 1;
+  max-width: 120px;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  background: #004877;
+  color: white;
 }
 
 .action-button.secondary {
-    background: #f0f4f8;
-    color: #004877;
+  background: #f0f4f8;
+  color: #004877;
 }
 
 /* ===== DETAILS ===== */
 .account-details {
-    background: white;
-    margin: 0 16px;
-    border-radius: 16px;
-    padding: 20px;
+  background: white;
+  margin: 0 16px;
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .detail-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .detail-row:last-child {
-    border-bottom: none;
+  border-bottom: none;
+}
+
+/* ===== TRANSITIONS ===== */
+.page-exit {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: 0.22s ease;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Splash -->
-<div id="splashScreen" class="splash-screen">
-    <div class="splash-content">
-        <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" class="splash-logo">
-        <div class="spinner"></div>
-    </div>
-</div>
+<!-- APP -->
+<div class="app" id="mainApp">
 
-<!-- App -->
-<div class="app" id="mainApp" style="display:none;">
-
-<!-- Pull to Refresh -->
-<div id="pullIndicator">
-    <div class="pull-spinner"></div>
-</div>
-
-<!-- Header -->
-<div class="checking-header">
-    <button class="back-button" onclick="goBack()">←</button>
+  <!-- HEADER -->
+  <div class="checking-header">
+    <button class="back-button" onclick="navigate('index.html')">←</button>
     <h1>Checking Account</h1>
 
-    <!-- Skeleton -->
     <div id="balanceSkeleton">
-        <div class="skeleton skeleton-balance" style="margin:16px auto"></div>
-        <div class="skeleton skeleton-text" style="width:120px;margin:0 auto"></div>
+      <div class="skeleton skeleton-balance" style="margin:16px auto"></div>
+      <div class="skeleton skeleton-text" style="width:120px;margin:0 auto"></div>
     </div>
 
-    <!-- Real -->
     <div id="balanceReal" style="display:none;">
-        <div class="checking-balance">$56,452.12</div>
-        <div class="available-label">Available balance</div>
+      <div class="checking-balance">$56,452.12</div>
+      <div class="available-label">Available balance</div>
     </div>
-</div>
+  </div>
 
-<!-- Actions -->
-<div class="account-actions">
+  <!-- ACTIONS -->
+  <div class="account-actions">
     <button class="action-button">Transfer</button>
     <button class="action-button">Pay</button>
-    <button class="action-button secondary nav-link" href="./transactions.html">
-        View Activity
+    <button class="action-button secondary" onclick="navigate('transactions.html')">
+      View Activity
     </button>
-</div>
+  </div>
 
-<!-- Details -->
-<div class="account-details">
+  <!-- DETAILS -->
+  <div class="account-details">
     <div class="detail-row">
-        <span>Account Number</span>
-        <span>••• 4582</span>
+      <span>Account Number</span>
+      <span>••• 4582</span>
     </div>
     <div class="detail-row">
-        <span>Routing Number</span>
-        <span>021000021</span>
+      <span>Routing Number</span>
+      <span>021000021</span>
     </div>
     <div class="detail-row">
-        <span>Account Type</span>
-        <span>Personal Checking</span>
+      <span>Account Type</span>
+      <span>Personal Checking</span>
     </div>
     <div class="detail-row">
-        <span>Opened</span>
-        <span>Jan 15, 2020</span>
+      <span>Opened</span>
+      <span>Jan 15, 2020</span>
     </div>
-</div>
+  </div>
 
-<div class="padding-bottom"></div>
-
-<!-- Bottom Nav -->
-<nav class="bottom-nav">
-    <a href="./index.html" class="nav-link">
-        <img src="https://i.ibb.co/dszZ9z87/home-ICO.png" class="nav-icon">
-        <span>Home</span>
-    </a>
-    <a href="./transactions.html" class="nav-link">
-        <img src="https://i.ibb.co/zW419DBz/activity-ICO.png" class="nav-icon">
-        <span>Activity</span>
-    </a>
-    <a href="./settings.html" class="nav-link">
-        <img src="https://i.ibb.co/1CgTScs/settings-ICO.png" class="nav-icon">
-        <span>Settings</span>
-    </a>
-</nav>
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a href="index.html" onclick="nav(event,'index.html')" class="nav-link">Home</a>
+    <a href="transactions.html" onclick="nav(event,'transactions.html')" class="nav-link">Activity</a>
+    <a href="settings.html" onclick="nav(event,'settings.html')" class="nav-link">Settings</a>
+  </nav>
 
 </div>
 
 <script>
-/* Splash + skeleton */
+/* Skeleton swap */
 window.addEventListener('load', () => {
-    setTimeout(() => {
-        splashScreen.style.display = 'none';
-        mainApp.style.display = 'block';
-
-        setTimeout(() => {
-            balanceSkeleton.style.display = 'none';
-            balanceReal.style.display = 'block';
-        }, 600);
-    }, 900);
+  setTimeout(() => {
+    balanceSkeleton.style.display = 'none';
+    balanceReal.style.display = 'block';
+  }, 600);
 });
 
-/* Back */
-function goBack() {
-    hapticLight();
-    mainApp.classList.add('page-exit');
-    setTimeout(() => location.href = './index.html', 220);
+/* Navigation */
+function nav(e, url) {
+  e.preventDefault();
+  navigate(url);
 }
 
-/* Nav transitions */
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        hapticLight();
-        mainApp.classList.add('page-exit');
-        setTimeout(() => location.href = link.getAttribute('href'), 220);
-    });
-});
-
-/* Pull to refresh */
-let startY = 0, pulling = false, triggered = false;
-const indicator = document.getElementById('pullIndicator');
-
-mainApp.addEventListener('touchstart', e => {
-    if (mainApp.scrollTop === 0) {
-        startY = e.touches[0].clientY;
-        pulling = true;
-        triggered = false;
-    }
-});
-
-mainApp.addEventListener('touchmove', e => {
-    if (!pulling) return;
-    const delta = e.touches[0].clientY - startY;
-    if (delta > 0) {
-        e.preventDefault();
-        indicator.style.transform = `translateY(${Math.min(delta,80)}px)`;
-        if (delta > 60 && !triggered) {
-            triggered = true;
-            hapticLight();
-        }
-    }
-}, { passive:false });
-
-mainApp.addEventListener('touchend', () => {
-    indicator.style.transform = 'translateY(0)';
-    if (triggered) refreshBalance();
-    pulling = false;
-});
-
-/* Refresh */
-function refreshBalance() {
-    hapticMedium();
-    balanceReal.style.display = 'none';
-    balanceSkeleton.style.display = 'block';
-    setTimeout(() => {
-        balanceSkeleton.style.display = 'none';
-        balanceReal.style.display = 'block';
-    }, 700);
-}
-
-/* Haptics */
-function hapticLight() {
-    navigator.vibrate?.(10);
-}
-function hapticMedium() {
-    navigator.vibrate?.([20,30,20]);
+function navigate(url) {
+  navigator.vibrate?.(10);
+  mainApp.classList.add('page-exit');
+  setTimeout(() => {
+    window.location.href = url;
+  }, 220);
 }
 </script>
 
