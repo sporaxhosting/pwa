@@ -1,3 +1,5 @@
+const BASE = "/pwa";
+
 const routes = {
   "/": "/views/home.html",
   "/checking": "/views/checking.html",
@@ -7,28 +9,52 @@ const routes = {
 const container = document.getElementById("app");
 let currentView = null;
 
-/* Load view */
-async function loadView(path, direction = "forward") {
-  const res = await fetch(routes[path] || routes["/"]);
-  const html = await res.text();
-
-  const view = document.createElement("div");
-  view.innerHTML = html;
-  const page = view.firstElementChild;
-
-  if (currentView) {
-    currentView.classList.add("exit-left");
-    setTimeout(() => currentView.remove(), 350);
+/* Normalize path */
+function normalizePath(path) {
+  if (path.startsWith(BASE)) {
+    path = path.slice(BASE.length);
   }
-
-  page.classList.add("active");
-  container.appendChild(page);
-  currentView = page;
+  return path === "" ? "/" : path;
 }
 
-/* Navigate */
+/* Load view safely */
+async function loadView(rawPath) {
+  const path = normalizePath(rawPath);
+  const viewPath = routes[path] || routes["/"];
+
+  try {
+    const res = await fetch(viewPath);
+    if (!res.ok) throw new Error("Fetch failed");
+
+    const html = await res.text();
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html;
+
+    const view = wrapper.firstElementChild;
+    if (!view) throw new Error("Invalid view");
+
+    if (currentView) {
+      currentView.classList.remove("active");
+      currentView.remove();
+    }
+
+    view.classList.add("active");
+    container.appendChild(view);
+    currentView = view;
+
+  } catch (err) {
+    console.error("View load error:", err);
+    container.innerHTML = `
+      <div style="padding:20px;font-family:sans-serif">
+        Failed to load app view.
+      </div>
+    `;
+  }
+}
+
+/* Navigation */
 function navigate(path) {
-  history.pushState({}, "", path);
+  history.pushState({}, "", BASE + path);
   navigator.vibrate?.(10);
   loadView(path);
 }
@@ -37,38 +63,16 @@ function navigate(path) {
 document.addEventListener("click", e => {
   const link = e.target.closest("[data-link]");
   if (!link) return;
-
   e.preventDefault();
   navigate(link.getAttribute("href"));
 });
 
-/* Back buttons */
-document.addEventListener("click", e => {
-  if (e.target.closest("[data-back]")) {
-    history.back();
-  }
-});
-
-/* Popstate */
+/* Back */
 window.addEventListener("popstate", () => {
-  loadView(location.pathname, "back");
+  loadView(location.pathname);
 });
 
-/* iOS swipe back gesture */
-let startX = 0;
-document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
+/* Initial boot (CRITICAL) */
+document.addEventListener("DOMContentLoaded", () => {
+  loadView(location.pathname);
 });
-
-document.addEventListener("touchend", e => {
-  const deltaX = e.changedTouches[0].clientX - startX;
-  if (deltaX > 120) history.back();
-});
-
-/* Orientation lock */
-if (screen.orientation?.lock) {
-  screen.orientation.lock("portrait").catch(() => {});
-}
-
-/* Initial load */
-loadView(location.pathname);
