@@ -1,41 +1,74 @@
-// Haptic Feedback
-function hapticLight() { if (navigator.vibrate) navigator.vibrate(10); }
-function hapticMedium() { if (navigator.vibrate) navigator.vibrate([20, 30, 20]); }
+const routes = {
+  "/": "/views/home.html",
+  "/checking": "/views/checking.html",
+  "/transactions": "/views/transactions.html"
+};
 
-// Native Navigation Interceptor
-document.querySelectorAll('a[href]').forEach(link => {
-    if (!link.href.includes('#')) {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            hapticLight();
-            const target = link.getAttribute('href');
-            document.querySelector('.app').classList.add('page-exit');
-            setTimeout(() => { window.location.href = target; }, 220);
-        });
-    }
+const container = document.getElementById("app");
+let currentView = null;
+
+/* Load view */
+async function loadView(path, direction = "forward") {
+  const res = await fetch(routes[path] || routes["/"]);
+  const html = await res.text();
+
+  const view = document.createElement("div");
+  view.innerHTML = html;
+  const page = view.firstElementChild;
+
+  if (currentView) {
+    currentView.classList.add("exit-left");
+    setTimeout(() => currentView.remove(), 350);
+  }
+
+  page.classList.add("active");
+  container.appendChild(page);
+  currentView = page;
+}
+
+/* Navigate */
+function navigate(path) {
+  history.pushState({}, "", path);
+  navigator.vibrate?.(10);
+  loadView(path);
+}
+
+/* Link interception */
+document.addEventListener("click", e => {
+  const link = e.target.closest("[data-link]");
+  if (!link) return;
+
+  e.preventDefault();
+  navigate(link.getAttribute("href"));
 });
 
-// Pull to Refresh logic (LESS SENSITIVE)
-let startY = 0;
-let pullStartTime = 0;
-const app = document.querySelector('.app');
-
-app.addEventListener('touchstart', e => { 
-    if (app.scrollTop === 0) {
-        startY = e.touches[0].clientY;
-        pullStartTime = Date.now();
-    }
+/* Back buttons */
+document.addEventListener("click", e => {
+  if (e.target.closest("[data-back]")) {
+    history.back();
+  }
 });
 
-app.addEventListener('touchmove', e => {
-    const delta = e.touches[0].clientY - startY;
-    const timeElapsed = Date.now() - pullStartTime;
-    
-    // Only trigger if pulled significantly AND slowly (not during normal scroll)
-    if (delta > 100 && app.scrollTop === 0 && timeElapsed > 100) {
-        e.preventDefault();
-        hapticMedium();
-        // Trigger your refresh logic here
-        console.log("Pull to refresh triggered");
-    }
-}, { passive: false });
+/* Popstate */
+window.addEventListener("popstate", () => {
+  loadView(location.pathname, "back");
+});
+
+/* iOS swipe back gesture */
+let startX = 0;
+document.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e => {
+  const deltaX = e.changedTouches[0].clientX - startX;
+  if (deltaX > 120) history.back();
+});
+
+/* Orientation lock */
+if (screen.orientation?.lock) {
+  screen.orientation.lock("portrait").catch(() => {});
+}
+
+/* Initial load */
+loadView(location.pathname);
