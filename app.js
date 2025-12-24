@@ -1,11 +1,9 @@
 /* ======================================================
-   BankFlow SPA Router – GitHub Pages Safe
-   Repo: /pwa
+   BankFlow SPA Router – iOS PWA SAFE
    ====================================================== */
 
 const BASE = "/pwa";
 
-/* Route → View mapping */
 const routes = {
   "/": `${BASE}/views/home.html`,
   "/checking": `${BASE}/views/checking.html`,
@@ -14,9 +12,10 @@ const routes = {
 
 const container = document.getElementById("app");
 let currentView = null;
+let isNavigating = false;
 
 /* ---------------------------------------
-   Path Resolution (hash + pathname safe)
+   Path Resolver
 ---------------------------------------- */
 function getCurrentPath() {
   if (location.hash) {
@@ -24,7 +23,6 @@ function getCurrentPath() {
   }
 
   let path = location.pathname;
-
   if (path.startsWith(BASE)) {
     path = path.slice(BASE.length);
   }
@@ -33,9 +31,12 @@ function getCurrentPath() {
 }
 
 /* ---------------------------------------
-   View Loader
+   View Loader (guarded)
 ---------------------------------------- */
 async function loadView(path) {
+  if (isNavigating) return;
+  isNavigating = true;
+
   const viewPath = routes[path] || routes["/"];
 
   try {
@@ -49,7 +50,6 @@ async function loadView(path) {
     const nextView = wrapper.firstElementChild;
     if (!nextView) throw new Error("Invalid view");
 
-    /* Exit animation */
     if (currentView) {
       currentView.classList.add("exit-left");
       setTimeout(() => currentView.remove(), 250);
@@ -65,22 +65,25 @@ async function loadView(path) {
     currentView = nextView;
 
   } catch (err) {
-    console.error("View load error:", err);
+    console.error(err);
     container.innerHTML = `
       <div style="padding:20px;font-family:sans-serif">
         Failed to load app view.
       </div>
     `;
+  } finally {
+    setTimeout(() => {
+      isNavigating = false;
+    }, 350);
   }
 }
 
 /* ---------------------------------------
-   Navigation
+   Navigation (NO loadView here)
 ---------------------------------------- */
 function navigate(path) {
+  if (getCurrentPath() === path) return;
   history.pushState({}, "", BASE + path);
-  navigator.vibrate?.(10);
-  loadView(path);
 }
 
 /* ---------------------------------------
@@ -95,7 +98,7 @@ document.addEventListener("click", e => {
 });
 
 /* ---------------------------------------
-   Back Button Support
+   Back Buttons
 ---------------------------------------- */
 document.addEventListener("click", e => {
   if (e.target.closest("[data-back]")) {
@@ -104,14 +107,14 @@ document.addEventListener("click", e => {
 });
 
 /* ---------------------------------------
-   Browser Back / Forward
+   History Listener (ONLY loader)
 ---------------------------------------- */
 window.addEventListener("popstate", () => {
   loadView(getCurrentPath());
 });
 
 /* ---------------------------------------
-   Initial Load (CRITICAL)
+   Initial Boot
 ---------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   loadView(getCurrentPath());
