@@ -1,9 +1,9 @@
 const BASE = "/pwa";
 
 const routes = {
-  "/": "/views/home.html",
-  "/checking": "/views/checking.html",
-  "/transactions": "/views/transactions.html"
+  "/": `${BASE}/views/home.html`,
+  "/checking": `${BASE}/views/checking.html`,
+  "/transactions": `${BASE}/views/transactions.html`
 };
 
 const container = document.getElementById("app");
