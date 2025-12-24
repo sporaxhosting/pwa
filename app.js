@@ -1,5 +1,11 @@
+/* ======================================================
+   BankFlow SPA Router – GitHub Pages Safe
+   Repo: /pwa
+   ====================================================== */
+
 const BASE = "/pwa";
 
+/* Route → View mapping */
 const routes = {
   "/": `${BASE}/views/home.html`,
   "/checking": `${BASE}/views/checking.html`,
@@ -9,17 +15,27 @@ const routes = {
 const container = document.getElementById("app");
 let currentView = null;
 
-/* Normalize path */
-function normalizePath(path) {
+/* ---------------------------------------
+   Path Resolution (hash + pathname safe)
+---------------------------------------- */
+function getCurrentPath() {
+  if (location.hash) {
+    return location.hash.replace("#", "");
+  }
+
+  let path = location.pathname;
+
   if (path.startsWith(BASE)) {
     path = path.slice(BASE.length);
   }
+
   return path === "" ? "/" : path;
 }
 
-/* Load view safely */
-async function loadView(rawPath) {
-  const path = normalizePath(rawPath);
+/* ---------------------------------------
+   View Loader
+---------------------------------------- */
+async function loadView(path) {
   const viewPath = routes[path] || routes["/"];
 
   try {
@@ -30,17 +46,23 @@ async function loadView(rawPath) {
     const wrapper = document.createElement("div");
     wrapper.innerHTML = html;
 
-    const view = wrapper.firstElementChild;
-    if (!view) throw new Error("Invalid view");
+    const nextView = wrapper.firstElementChild;
+    if (!nextView) throw new Error("Invalid view");
 
+    /* Exit animation */
     if (currentView) {
-      currentView.classList.remove("active");
-      currentView.remove();
+      currentView.classList.add("exit-left");
+      setTimeout(() => currentView.remove(), 250);
     }
 
-    view.classList.add("active");
-    container.appendChild(view);
-    currentView = view;
+    nextView.classList.add("view");
+    container.appendChild(nextView);
+
+    requestAnimationFrame(() => {
+      nextView.classList.add("active");
+    });
+
+    currentView = nextView;
 
   } catch (err) {
     console.error("View load error:", err);
@@ -52,27 +74,45 @@ async function loadView(rawPath) {
   }
 }
 
-/* Navigation */
+/* ---------------------------------------
+   Navigation
+---------------------------------------- */
 function navigate(path) {
   history.pushState({}, "", BASE + path);
   navigator.vibrate?.(10);
   loadView(path);
 }
 
-/* Link interception */
+/* ---------------------------------------
+   Link Interception
+---------------------------------------- */
 document.addEventListener("click", e => {
   const link = e.target.closest("[data-link]");
   if (!link) return;
+
   e.preventDefault();
   navigate(link.getAttribute("href"));
 });
 
-/* Back */
-window.addEventListener("popstate", () => {
-  loadView(location.pathname);
+/* ---------------------------------------
+   Back Button Support
+---------------------------------------- */
+document.addEventListener("click", e => {
+  if (e.target.closest("[data-back]")) {
+    history.back();
+  }
 });
 
-/* Initial boot (CRITICAL) */
+/* ---------------------------------------
+   Browser Back / Forward
+---------------------------------------- */
+window.addEventListener("popstate", () => {
+  loadView(getCurrentPath());
+});
+
+/* ---------------------------------------
+   Initial Load (CRITICAL)
+---------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  loadView(location.pathname);
+  loadView(getCurrentPath());
 });
