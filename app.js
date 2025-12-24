@@ -1,5 +1,5 @@
 /* ======================================================
-   BankFlow SPA Router – iOS PWA SAFE
+   BankFlow SPA Router – iOS Safari + PWA SAFE
    ====================================================== */
 
 const BASE = "/pwa";
@@ -12,7 +12,7 @@ const routes = {
 
 const container = document.getElementById("app");
 let currentView = null;
-let isNavigating = false;
+let ignoreNextPop = false;
 
 /* ---------------------------------------
    Path Resolver
@@ -31,12 +31,9 @@ function getCurrentPath() {
 }
 
 /* ---------------------------------------
-   View Loader (guarded)
+   View Loader
 ---------------------------------------- */
 async function loadView(path) {
-  if (isNavigating) return;
-  isNavigating = true;
-
   const viewPath = routes[path] || routes["/"];
 
   try {
@@ -65,25 +62,24 @@ async function loadView(path) {
     currentView = nextView;
 
   } catch (err) {
-    console.error(err);
+    console.error("View load error:", err);
     container.innerHTML = `
       <div style="padding:20px;font-family:sans-serif">
         Failed to load app view.
       </div>
     `;
-  } finally {
-    setTimeout(() => {
-      isNavigating = false;
-    }, 350);
   }
 }
 
 /* ---------------------------------------
-   Navigation (NO loadView here)
+   Navigation (IMMEDIATE LOAD)
 ---------------------------------------- */
 function navigate(path) {
   if (getCurrentPath() === path) return;
+
+  ignoreNextPop = true;
   history.pushState({}, "", BASE + path);
+  loadView(path);
 }
 
 /* ---------------------------------------
@@ -107,14 +103,18 @@ document.addEventListener("click", e => {
 });
 
 /* ---------------------------------------
-   History Listener (ONLY loader)
+   Browser Back / Forward
 ---------------------------------------- */
 window.addEventListener("popstate", () => {
+  if (ignoreNextPop) {
+    ignoreNextPop = false;
+    return;
+  }
   loadView(getCurrentPath());
 });
 
 /* ---------------------------------------
-   Initial Boot
+   Initial Load
 ---------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   loadView(getCurrentPath());
