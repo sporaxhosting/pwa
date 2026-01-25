@@ -1,18 +1,94 @@
-<div class="view">
+<div class="app padding-bottom">
 
-  <div class="transactions-header">
+  <div class="checking-header">
     <button class="back-button" data-back>←</button>
-    <h1>Recent Activity</h1>
+    <h1>All Activity</h1>
   </div>
 
-  <div class="transaction-list">
-    <div class="transaction-item">
-      <div>
-        <div class="transaction-merchant">Whole Foods Market</div>
-        <div class="transaction-date">2:45 PM</div>
+  <div style="padding: 16px;">
+    <div class="transaction-list">
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Whole Foods Market</div>
+          <div class="transaction-date">Today, 2:45 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$86.42</div>
       </div>
-      <div class="transaction-amount">-$86.42</div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Shell Gas Station</div>
+          <div class="transaction-date">Today, 8:15 AM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$45.00</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Starbucks</div>
+          <div class="transaction-date">Jan 24, 3:30 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$6.75</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Amazon</div>
+          <div class="transaction-date">Jan 24, 11:20 AM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$127.99</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Netflix</div>
+          <div class="transaction-date">Jan 24, 9:00 AM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$15.99</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Salary Deposit</div>
+          <div class="transaction-date">Jan 23, 12:00 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #388e3c;">+$5,200.00</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Target</div>
+          <div class="transaction-date">Jan 22, 5:45 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$94.32</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Uber</div>
+          <div class="transaction-date">Jan 22, 7:30 AM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$18.50</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">CVS Pharmacy</div>
+          <div class="transaction-date">Jan 21, 2:15 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$23.67</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Chipotle</div>
+          <div class="transaction-date">Jan 20, 6:00 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$12.45</div>
+      </div>
     </div>
   </div>
+
+  <nav class="bottom-nav">
+    <a href="/" data-link>
+      <div class="nav-icon">🏠</div>
+      Home
+    </a>
+    <a href="/transactions" data-link class="active">
+      <div class="nav-icon">📊</div>
+      Activity
+    </a>
+  </nav>
 
 </div>
