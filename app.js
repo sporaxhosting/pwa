@@ -9,6 +9,23 @@ const routes = {
 const container = document.getElementById("app");
 let currentView = null;
 let isTransitioning = false;
+let appInitialized = false;
+
+/* ---------------------------------------
+   Splash Screen Handler
+---------------------------------------- */
+function hideSplash() {
+  const splash = document.getElementById("splash");
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = "0";
+      splash.style.transition = "opacity 0.3s ease";
+      setTimeout(() => {
+        splash.remove();
+      }, 300);
+    }, 1200); // Show splash for 1.2 seconds
+  }
+}
 
 /* ---------------------------------------
    Path Resolver
@@ -63,6 +80,12 @@ async function loadView(path) {
 
     currentView = nextView;
 
+    // Hide splash on first load
+    if (!appInitialized) {
+      hideSplash();
+      appInitialized = true;
+    }
+
   } catch (err) {
     console.error(err);
     container.innerHTML = `
@@ -102,6 +125,7 @@ document.addEventListener("click", e => {
 ---------------------------------------- */
 document.addEventListener("click", e => {
   if (e.target.closest("[data-back]")) {
+    e.preventDefault();
     history.back();
   }
 });
