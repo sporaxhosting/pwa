@@ -1,23 +1,30 @@
-<div class="view">
+<div class="app padding-bottom">
   <div class="header">
     <img src="https://i.ibb.co/n813BBWg/BANKFLOWLOGO.png" class="header-logo">
     <p class="welcome-name">NIKITA SUZUKI</p>
   </div>
 
-  <a href="/checking" data-link class="account-card-link">
+  <!-- CRITICAL FIX: Added data-link and href together -->
+  <div class="account-card-link" data-link style="cursor:pointer">
     <div class="account-card">
       <div class="account-name">Checking Account</div>
       <div class="balance-new">$56,452.12</div>
     </div>
-  </a>
+  </div>
 
   <a href="/transactions" data-link class="view-more-button centered">
     View more
   </a>
 
   <nav class="bottom-nav">
-    <a href="/" data-link class="active">Home</a>
-    <a href="/transactions" data-link>Activity</a>
+    <a href="/" data-link class="active">
+      <div class="nav-icon">🏠</div>
+      Home
+    </a>
+    <a href="/transactions" data-link>
+      <div class="nav-icon">📊</div>
+      Activity
+    </a>
   </nav>
 
 </div>
