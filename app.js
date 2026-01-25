@@ -117,7 +117,12 @@ document.addEventListener("click", e => {
   if (!link) return;
 
   e.preventDefault();
-  navigate(link.getAttribute("href"));
+  
+  // Get href from either href attribute or data-route attribute
+  const path = link.getAttribute("href") || link.getAttribute("data-route");
+  if (path) {
+    navigate(path);
+  }
 });
 
 /* ---------------------------------------
