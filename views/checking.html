@@ -1,18 +1,66 @@
-<div class="view">
+<div class="app padding-bottom">
 
   <div class="checking-header">
     <button class="back-button" data-back>←</button>
     <h1>Checking Account</h1>
-    <div class="checking-balance">$56,452.12</div>
-    <div class="available-label">Available balance</div>
+    <div style="font-size: 32px; font-weight: 300; margin-top: 12px;">$56,452.12</div>
+    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-top: 4px;">Available balance</div>
   </div>
 
-  <div class="account-actions">
-    <button class="action-button">Transfer</button>
-    <button class="action-button">Pay</button>
-    <button class="action-button secondary" data-link href="/transactions">
-      View Activity
-    </button>
+  <div style="padding: 24px 16px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+      <button style="padding: 14px; background: white; border: 2px solid #000; border-radius: 12px; font-weight: 600; cursor: pointer;">Transfer</button>
+      <button style="padding: 14px; background: white; border: 2px solid #000; border-radius: 12px; font-weight: 600; cursor: pointer;">Pay</button>
+      <button style="padding: 14px; background: #004877; color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;" data-link href="/transactions">Activity</button>
+    </div>
+
+    <div class="section-header">
+      <h2 class="section-title">Recent Transactions</h2>
+    </div>
+
+    <div class="transaction-list">
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Whole Foods Market</div>
+          <div class="transaction-date">Today, 2:45 PM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$86.42</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Shell Gas Station</div>
+          <div class="transaction-date">Today, 8:15 AM</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$45.00</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Netflix</div>
+          <div class="transaction-date">Jan 24</div>
+        </div>
+        <div class="transaction-amount" style="color: #d32f2f;">-$15.99</div>
+      </div>
+      <div class="transaction-item">
+        <div>
+          <div class="transaction-merchant">Salary Deposit</div>
+          <div class="transaction-date">Jan 23</div>
+        </div>
+        <div class="transaction-amount" style="color: #388e3c;">+$5,200.00</div>
+      </div>
+    </div>
+
+    <a href="/transactions" data-link class="view-more-button centered">View all transactions</a>
   </div>
+
+  <nav class="bottom-nav">
+    <a href="/" data-link>
+      <div class="nav-icon">🏠</div>
+      Home
+    </a>
+    <a href="/transactions" data-link>
+      <div class="nav-icon">📊</div>
+      Activity
+    </a>
+  </nav>
 
 </div>
